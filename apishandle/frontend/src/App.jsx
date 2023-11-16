@@ -3,27 +3,7 @@ import axios from 'axios'
 
 
 function App() {
-  const [producs, setProducts] = useState([])
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true)
-        setError(false)
-        const response = await axios.get('/api/products')
-        console.log(response.data);
-        setProducts(response.data)
-        setLoading(false)
-      } catch (error) {
-        setError(true)
-        setLoading(false)
-      }
-    })() // IFFI
-  }, [])
-
-
+  const [producs, error, loading] = customRecatQuery('/api/products')
   if (error) {
     return <h1>Something went wrong!!</h1>
   }
@@ -42,3 +22,28 @@ function App() {
 }
 
 export default App
+
+
+const customRecatQuery = (urlPath) => {
+  const [producs, setProducts] = useState([])
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true)
+        setError(false)
+        const response = await axios.get(urlPath)
+        console.log(response.data);
+        setProducts(response.data)
+        setLoading(false)
+      } catch (error) {
+        setError(true)
+        setLoading(false)
+      }
+    })() // IFFI
+  }, [])
+  return [producs, loading, error]
+
+}
