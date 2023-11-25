@@ -34,7 +34,7 @@ export class AuthService {
     try {
       return await this.account.createEmailSession(emai, password)
     } catch (error) {
-      throw.error;
+      throw(error);
     }
   }
 
